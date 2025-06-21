@@ -1,9 +1,4 @@
 # 📷 Serverless Image Processor – Architecture Documentation
-
----
-
-## 🧱 Architecture Diagram
-
 This solution implements a **serverless image upload and processing architecture** using:
 
 - **Amazon S3**
