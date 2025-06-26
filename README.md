@@ -24,7 +24,7 @@ This design is **simple, scalable, and cost-effective**.
 
 
 
-![Architecture](images/Diagram.drawio(1).png)
+![Architecture](images/Diagram.drawio.png)
 
 ---
 
