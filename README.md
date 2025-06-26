@@ -10,9 +10,10 @@ It enables users to upload images via a static frontend hosted on S3. Upon uploa
 The **API Gateway + Lambda** approach provides a secure interface to generate presigned PUT URLs, avoiding public write access to S3. The event-driven backend allows fully automated image processing.
 ---
 
-## 🔗 Live URL
+## 🔗 Live URL : [Link](http://website-for-manara-project.s3-website-us-east-1.amazonaws.com/#)
 
-[Link](http://website-for-manara-project.s3-website-us-east-1.amazonaws.com/#)
+---
+---
 
 
 ![Architecture](images/Diagram.drawio.png)
