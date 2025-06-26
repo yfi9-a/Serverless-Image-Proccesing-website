@@ -13,7 +13,7 @@ The **API Gateway + Lambda** approach provides a secure interface to generate pr
 ## 🔗 Live URL : [Link](http://website-for-manara-project.s3-website-us-east-1.amazonaws.com/#)
 
 ---
----
+
 
 
 ![Architecture](images/Diagram.drawio.png)
