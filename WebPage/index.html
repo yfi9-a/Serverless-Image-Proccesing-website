@@ -3,35 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🔥 Upload Image</title>
+  <title>Serverless Image Editor</title>
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #1e3c72, #2a5298);
       color: white;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #16294d;
+      padding: 10px 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      flex-wrap: wrap;
+    }
+
+    header .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header img {
+      height: 40px;
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+      margin: 0;
+      color: white;
+    }
+
+    nav a {
+      margin-left: 20px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
       text-align: center;
-      padding: 50px;
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
     }
 
     h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
+      font-size: 2.3em;
+      margin-bottom: 20px;
     }
 
     .upload-box {
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px dashed #fff;
-      padding: 40px;
-      border-radius: 10px;
-      max-width: 400px;
-      margin: 0 auto;
+  background: rgba(255, 255, 255, 0.1);
+  border: 3px dashed #fff;
+  padding: 40px 30px;
+  border-radius: 16px;
+  max-width: 600px;
+  margin: 0 auto 60px auto;
+  transition: border-color 0.3s, background-color 0.3s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+    .upload-box.dragover {
+      border-color: #4caf50;
+      background-color: rgba(255, 255, 255, 0.15);
     }
 
-    input[type="file"] {
-      margin: 15px 0;
+    .custom-upload-button {
+      background-color: #ffffff;
+      color: #1e3c72;
+      padding: 10px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 10px;
     }
 
-    button {
+    #dropMessage {
+      font-style: italic;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    
+img.preview {
+  max-width: 90%;
+  max-height: 250px;
+  margin-top: 20px;
+  border-radius: 12px;
+  object-fit: contain;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+
+
+    button.upload-button {
       background-color: #ffffff;
       color: #1e3c72;
       border: none;
@@ -39,90 +118,279 @@
       font-size: 16px;
       border-radius: 5px;
       cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s;
+      display: none;
     }
 
-    img.preview {
-      max-width: 100%;
-      max-height: 200px;
-      margin-top: 15px;
-      border-radius: 8px;
+    button.upload-button:hover {
+      background-color: #ddd;
     }
 
     #status {
       margin-top: 15px;
       font-style: italic;
     }
+
+    .progress-container, .processing-container {
+      background: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .progress-bar, .processing-bar {
+      height: 20px;
+      background: #4caf50;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .card {
+      background: white;
+      color: black;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 400px;
+      margin: 30px auto 0 auto;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    a.button {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #1e3c72;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 10px;
+    }
+
+    .nav-placeholder {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+
+    .nav-placeholder button {
+      padding: 12px;
+      border-radius: 6px;
+      background: #1e3c72;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+    }
+
+    .nav-placeholder button:hover {
+      background: #416bb8;
+    }
+
+    .coming-soon {
+      color: yellow;
+      margin-top: 10px;
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.2; }
+      50% { opacity: 1; }
+      100% { opacity: 0.2; }
+    }
+
+    @media (max-width: 768px) {
+  .upload-box {
+    padding: 30px 20px;
+  }
+
+  img.preview {
+    max-height: 180px;
+  }
+
+  .nav-placeholder {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    padding: 0 10px;
+  }
+}
   </style>
 </head>
 <body>
+  <header>
+    <div class="logo-title">
+      <img src="https://website-for-manara-project.s3.us-east-1.amazonaws.com/logo.png" alt="logo" />
+      <h2>Serverless Image Editor</h2>
+    </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Docs</a>
+    </nav>
+  </header>
 
-  <h1>🔥 Upload Your Image</h1>
+  <div class="container">
+    <h1>Resize Your Image</h1>
+    <div class="nav-placeholder">
+      <button onclick="comingSoon()">Resize</button>
+      <button onclick="comingSoon()">Crop</button>
+      <button onclick="comingSoon()">Rotate</button>
+      <button onclick="comingSoon()">Enhance</button>
+      <button onclick="comingSoon()">Compress</button>
+      <button onclick="comingSoon()">Convert</button>
+    </div>
 
-  <!-- Logo from S3 (اختياري) -->
-  <img src="https://your-bucket.s3.amazonaws.com/web-ui/logo.png" width="100" />
+    <div class="upload-box" id="uploadBox">
+      <p id="dropMessage">📤 Drag & Drop your image here or click below</p>
+      <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+      <label for="fileInput" class="custom-upload-button">Choose Image</label>
+      <img id="preview" class="preview" src="#" alt="" style="display: none;" />
+      <br />
+      <button id="uploadButton" class="upload-button" onclick="uploadImage()">Upload</button>
+      <br />
+      <p id="status"></p>
+      <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="processing-container" id="processingContainer">
+        <div class="processing-bar" id="processingBar"></div>
+      </div>
+    </div>
 
-  <div class="upload-box">
-    <input type="file" id="fileInput" accept="image/*"/>
-    <br />
-    <button onclick="uploadImage()">Upload</button>
-    <br />
-    <img id="preview" class="preview" src="#" alt="" style="display: none;" />
-    <p id="status"></p>
+    <div id="result" class="card" style="display: none;">
+      <h3>✅ Image Processed</h3>
+      <img id="processedImage" class="preview" src="" alt="Processed image" />
+      <br />
+      <a id="downloadLink" class="button" download>⬇️ Download</a>
+    </div>
+
+    <p id="comingMessage" class="coming-soon" style="display: none;">🚧 Feature Coming Soon</p>
+    <div style="margin-top: 40px; padding: 30px; background-color: rgba(255,255,255,0.08); border-radius: 12px;">
+  <h2>✨ Why Serverless Image Editor?</h2>
+  <ul style="text-align: left; max-width: 600px; margin: 20px auto; font-size: 1rem; line-height: 1.7;">
+    <li>✅ Resize and optimize images in seconds</li>
+    <li>⚡ Serverless performance with low cost</li>
+    <li>🔒 Your images are processed securely</li>
+    <li>🖼️ More features like Crop & Enhance coming soon!</li>
+  </ul>
+</div>
   </div>
 
   <script>
-    const preview = document.getElementById("preview");
     const fileInput = document.getElementById("fileInput");
-    fileInput.onchange = () => {
+    const preview = document.getElementById("preview");
+    const uploadBox = document.getElementById("uploadBox");
+    const uploadButton = document.getElementById("uploadButton");
+
+    uploadBox.addEventListener("dragover", e => {
+      e.preventDefault();
+      uploadBox.classList.add("dragover");
+    });
+
+    uploadBox.addEventListener("dragleave", () => {
+      uploadBox.classList.remove("dragover");
+    });
+
+    uploadBox.addEventListener("drop", e => {
+      e.preventDefault();
+      uploadBox.classList.remove("dragover");
+      fileInput.files = e.dataTransfer.files;
+      previewFile();
+    });
+
+    fileInput.onchange = previewFile;
+
+    function previewFile() {
       const file = fileInput.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = e => {
         preview.src = e.target.result;
         preview.style.display = "block";
+        uploadButton.style.display = "inline-block";
       };
       reader.readAsDataURL(file);
-    };
+    }
+
+    function comingSoon() {
+      const msg = document.getElementById("comingMessage");
+      msg.style.display = "block";
+      setTimeout(() => msg.style.display = "none", 2500);
+    }
 
     async function uploadImage() {
       const file = fileInput.files[0];
-      if (!file) {
-        alert("Please select an image");
-        return;
-      }
+      if (!file) return alert("Please select an image");
 
       document.getElementById("status").innerText = "Getting upload URL...";
-
       const filename = encodeURIComponent(file.name);
-      const apiUrl = "https://0v436zchuh.execute-api.us-east-1.amazonaws.com/upload?filename=" + filename;
+      const uploadApiUrl = "https://0v436zchuh.execute-api.us-east-1.amazonaws.com/upload?filename=" + filename;
 
       try {
-        const res = await fetch(apiUrl);
+        const res = await fetch(uploadApiUrl);
         const data = await res.json();
 
         const formData = new FormData();
         Object.entries(data.fields).forEach(([k, v]) => formData.append(k, v));
         formData.append("file", file);
 
+        const progressBar = document.getElementById("progressBar");
+        const progressContainer = document.getElementById("progressContainer");
+        progressContainer.style.display = "block";
+        progressBar.style.width = "0%";
+
         document.getElementById("status").innerText = "Uploading...";
 
-        const uploadRes = await fetch(data.url, {
-          method: "POST",
-          body: formData
-        });
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", data.url, true);
 
-        if (uploadRes.ok) {
-          document.getElementById("status").innerText = "✅ Uploaded successfully!";
-        } else {
-          document.getElementById("status").innerText = "❌ Upload failed.";
-        }
+        xhr.upload.onprogress = function(e) {
+          if (e.lengthComputable) {
+            const percent = Math.round((e.loaded / e.total) * 100);
+            progressBar.style.width = percent + "%";
+          }
+        };
 
+        xhr.onload = async function() {
+          if (xhr.status === 204) {
+            document.getElementById("status").innerText = "✅ Uploaded! Processing...";
+            progressContainer.style.display = "none";
+
+            const processingBar = document.getElementById("processingBar");
+            const processingContainer = document.getElementById("processingContainer");
+            processingContainer.style.display = "block";
+
+            let p = 0;
+            const animateProcessing = setInterval(() => {
+              p = (p + 10) % 110;
+              processingBar.style.width = p + "%";
+            }, 400);
+
+            await new Promise(r => setTimeout(r, 5000));
+            clearInterval(animateProcessing);
+            processingContainer.style.display = "none";
+
+            const processedUrl = `https://processed-images-for-manaraproject.s3.us-east-1.amazonaws.com/resized/${filename}`;
+
+            document.getElementById("processedImage").src = processedUrl;
+            document.getElementById("downloadLink").href = processedUrl;
+            document.getElementById("result").style.display = "block";
+            uploadBox.style.display = "none";
+          } else {
+            document.getElementById("status").innerText = "❌ Upload failed.";
+          }
+        };
+
+        xhr.onerror = function() {
+          document.getElementById("status").innerText = "❌ Upload error.";
+        };
+
+        xhr.send(formData);
       } catch (err) {
         console.error(err);
         document.getElementById("status").innerText = "❌ Error: " + err.message;
       }
     }
   </script>
-
 </body>
 </html>
