@@ -8,6 +8,16 @@ This solution implements a **serverless image upload and processing architecture
 It enables users to upload images via a static frontend hosted on S3. Upon upload, Lambda is triggered to process and resize the image, storing the output in a separate bucket.
 
 The **API Gateway + Lambda** approach provides a secure interface to generate presigned PUT URLs, avoiding public write access to S3. The event-driven backend allows fully automated image processing.
+---
+
+## 🔗 Live URL
+
+[Link](http://website-for-manara-project.s3-website-us-east-1.amazonaws.com/#)
+
+
+![Architecture](images/Diagram.drawio.png)
+
+---
 
 ### ✅ Services Used:
 
