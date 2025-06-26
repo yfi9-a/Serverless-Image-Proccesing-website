@@ -15,11 +15,6 @@ The **API Gateway + Lambda** approach provides a secure interface to generate pr
 ---
 
 
-
-![Architecture](images/Diagram.drawio.png)
-
----
-
 ### ✅ Services Used:
 
 - Amazon S3 (static hosting + object storage)
