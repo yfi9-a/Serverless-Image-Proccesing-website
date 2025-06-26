@@ -62,19 +62,18 @@
     }
 
     .upload-box {
-  background: rgba(255, 255, 255, 0.1);
-  border: 3px dashed #fff;
-  padding: 40px 30px;
-  border-radius: 16px;
-  max-width: 600px;
-  margin: 0 auto 60px auto;
-  transition: border-color 0.3s, background-color 0.3s;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+      background: rgba(255, 255, 255, 0.1);
+      border: 3px dashed #fff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      max-width: 600px;
+      margin: 0 auto 60px auto;
+      transition: border-color 0.3s, background-color 0.3s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
     .upload-box.dragover {
       border-color: #4caf50;
@@ -98,17 +97,14 @@
       margin-bottom: 10px;
     }
 
-    
-img.preview {
-  max-width: 90%;
-  max-height: 250px;
-  margin-top: 20px;
-  border-radius: 12px;
-  object-fit: contain;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-}
-
-
+    img.preview {
+      max-width: 90%;
+      max-height: 250px;
+      margin-top: 20px;
+      border-radius: 12px;
+      object-fit: contain;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
 
     button.upload-button {
       background-color: #ffffff;
@@ -133,16 +129,19 @@ img.preview {
     }
 
     .progress-container, .processing-container {
-      background: #eee;
+      background: rgba(255,255,255,0.3);
       border-radius: 10px;
       overflow: hidden;
       margin-top: 15px;
       display: none;
+      width: 100%;
+      max-width: 500px;
+      height: 22px;
     }
 
     .progress-bar, .processing-bar {
-      height: 20px;
-      background: #4caf50;
+      height: 100%;
+      background: linear-gradient(to right, #4caf50, #8bc34a);
       width: 0%;
       transition: width 0.3s ease;
     }
@@ -202,19 +201,19 @@ img.preview {
     }
 
     @media (max-width: 768px) {
-  .upload-box {
-    padding: 30px 20px;
-  }
+      .upload-box {
+        padding: 30px 20px;
+      }
 
-  img.preview {
-    max-height: 180px;
-  }
+      img.preview {
+        max-height: 180px;
+      }
 
-  .nav-placeholder {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    padding: 0 10px;
-  }
-}
+      .nav-placeholder {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        padding: 0 10px;
+      }
+    }
   </style>
 </head>
 <body>
